@@ -15,7 +15,8 @@ export const WriterContainer = styled.div`
     display: flex;
     align-items: center;
 
-    img {
+    img,
+    svg {
       width: 5.4rem;
       height: 5.4rem;
       display: block;

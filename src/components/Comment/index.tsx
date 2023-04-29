@@ -3,6 +3,7 @@ import * as S from '@/styles/commentStyled';
 import Link from 'next/link';
 import { CommentList } from '@/types/RequestInterface';
 import { getDate } from '@/utils/dateFormat';
+import UserDummyImage from '@/asset/img/UserDummyImage';
 
 function Index({ comment }: { comment: CommentList }) {
   return (
@@ -13,7 +14,7 @@ function Index({ comment }: { comment: CommentList }) {
             href={{ pathname: `/profile`, query: { usedId: comment?.author.userId } }}
             as={'@' + comment?.author.userId}
           >
-            <img src={comment.author.profileImg} />
+            {comment.author.profileImg !== '' ? <img src={comment.author.profileImg} /> : <UserDummyImage />}
           </Link>
           <div className="comment-info">
             <div className="username">

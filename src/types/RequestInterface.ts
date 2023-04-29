@@ -1,5 +1,5 @@
 export interface PostInterface {
-  postId?: string;
+  postId: string;
   title: string;
   content?: string;
   thumbnail?: string;
@@ -20,7 +20,7 @@ export interface Author {
 }
 
 export interface CommentList {
-  commentID: string;
+  commentId: string;
   content: string;
   createdAt: Date;
   author: Author;
@@ -28,4 +28,10 @@ export interface CommentList {
 
 export interface Like {
   likeID: string;
+}
+
+export interface PostComment {
+  userId: string;
+  postId: string;
+  content: string;
 }

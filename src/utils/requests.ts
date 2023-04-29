@@ -1,5 +1,5 @@
 import { imgInstance, instance } from '@/utils/axiosInstance';
-import { PostInterface } from '@/types/RequestInterface';
+import { PostComment, PostInterface } from '@/types/RequestInterface';
 import { User, UserInfo } from '@/types/User';
 
 export const getPosts = async () => {
@@ -38,8 +38,10 @@ export const postLikeDislike = async (userId: String, postId: String) => {
   return response.data;
 };
 
-export const postComment = async (userId: String, postId: String, post: string) => {
-  const response = await instance.post(`posts/${userId}/${postId}/comments`, post);
+export const postComment = async (item: Omit<PostComment, 'comment'>) => {
+  console.log(item);
+  const response = await instance.post(`posts/${item.userId}/${item.postId}/comments`, item.content);
+  console.log(response);
   return response.data;
 };
 

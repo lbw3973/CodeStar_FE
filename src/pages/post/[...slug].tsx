@@ -6,7 +6,7 @@ import IconDislike from '@/asset/img/IconDislike';
 import Comment from '@/components/Comment';
 import CreditScore from '@/components/CreditScore';
 import IconLike from '@/asset/img/IconLike';
-import { getPost } from '@/utils/requests';
+import { getPost, postComment } from '@/utils/requests';
 import { CommentList, PostInterface } from '@/types/RequestInterface';
 import { getDate } from '@/utils/dateFormat';
 import Link from 'next/link';
@@ -14,6 +14,8 @@ import { GetServerSidePropsContext } from 'next';
 import dynamic from 'next/dynamic';
 import { getUser } from '@/utils/cookies';
 import UserDummyImage from '@/asset/img/UserDummyImage';
+import { AxiosError } from 'axios';
+import { useMutation } from 'react-query';
 const Viewer = dynamic(() => import('@/components/TuiEditor/Viewer'), { ssr: false });
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const query = context.query.slug;
@@ -60,8 +62,24 @@ function Index({ post }: { post: PostInterface }) {
   };
 
   const handlePostComment = () => {
-    console.log(comment);
+    console.log(post);
+    const item = {
+      userId: user.id,
+      postId: post.postId,
+      comment: comment,
+    };
+    mutate(item);
   };
+
+  // const { mutate, isLoading, error } = useMutation(
+  //   (data: Omit<FormValues, 'passwordConfirm'>) => instance.post('/auth/register', data),
+  //   {
+  //     onSuccess: () => setLogin(true),
+  //     onError: (error: any) => setMessage(error.response.data.message),
+  //   },
+  // );
+
+  const { mutate } = useMutation<string, string, string>(postComment);
 
   return (
     <Layout hasHeader>
@@ -143,7 +161,7 @@ function Index({ post }: { post: PostInterface }) {
         </div>
         <div className="comment--container">
           {post?.commentList.map((comment: CommentList) => (
-            <Comment key={comment.commentID} comment={comment} />
+            <Comment key={comment.commentId} comment={comment} />
           ))}
         </div>
       </S.CommentContainer>
